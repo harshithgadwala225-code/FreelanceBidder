@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreelanceBidder - Smart Proposal Pricing</title>
+    <!-- Tailwind CSS CDN for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between">
+
+    <!-- Header -->
+    <header class="bg-slate-800 border-b border-slate-700 py-4 px-6 shadow-md">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold tracking-wide text-indigo-400">💼 FreelanceBidder <span class="text-xs bg-indigo-500/20 text-indigo-300 px-2 py-1 rounded ml-2">India Market</span></h1>
+            <span class="text-sm text-slate-400">AI Pricing Intelligence</span>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 py-8 w-full flex-grow">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-extrabold tracking-tight mb-2">Optimize Your Freelance Bid</h2>
+            <p class="text-slate-400">Enter client details and your bid amount to predict your win probability in real-time (₹ INR).</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 bg-slate-800 border border-slate-700 p-6 rounded-2xl shadow-xl">
+            
+            <!-- Input Form Section -->
+            <form id="bidForm" class="space-y-4">
+                <h3 class="text-lg font-semibold text-indigo-300 border-b border-slate-700 pb-2">📋 Project & Client Details</h3>
+                
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Client Stated Budget (₹)</label>
+                    <input type="number" id="client_budget_inr" value="25000" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Client Past Average Spend (₹)</label>
+                    <input type="number" id="client_avg_spend_inr" value="24000" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Client Reviews</label>
+                        <input type="number" id="client_total_reviews" value="15" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Active Proposals</label>
+                        <input type="number" id="proposal_count" value="15" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                    </div>
+                </div>
+
+                <h3 class="text-lg font-semibold text-indigo-300 border-b border-slate-700 pt-3 pb-2">👨‍💻 Your Profile & Bid</h3>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Experience (Years)</label>
+                        <input type="number" id="freelancer_experience_yrs" value="4" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Star Rating (4.0 - 5.0)</label>
+                        <input type="number" step="0.1" id="freelancer_rating" value="4.8" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Skill Match Score (0.5 to 1.0)</label>
+                    <input type="number" step="0.05" id="skill_match_score" value="0.85" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-indigo-400 mb-1 font-bold">Your Proposed Bid (₹)</label>
+                    <input type="number" id="freelancer_bid_inr" value="23000" required class="w-full bg-slate-900 border border-indigo-500 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-bold text-white">
+                </div>
+
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 rounded-lg transition duration-200 shadow-lg shadow-indigo-600/30">
+                    🚀 Calculate Win Probability
+                </button>
+            </form>
+
+            <!-- Results & Insights Section -->
+            <div class="flex flex-col justify-between bg-slate-900/60 border border-slate-700/60 p-6 rounded-xl">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-200 mb-4 border-b border-slate-700 pb-2">📊 Prediction Analytics</h3>
+                    
+                    <div id="placeholderResult" class="text-center py-16 text-slate-500">
+                        <p>Fill out your details on the left and click calculate to view your prediction metrics.</p>
+                    </div>
+
+                    <div id="resultCard" class="hidden space-y-6">
+                        <!-- Win Probability Metric Box -->
+                        <div class="bg-slate-800 border border-slate-700 p-5 rounded-xl text-center shadow-inner">
+                            <span class="text-xs uppercase tracking-wider text-slate-400 font-medium">Estimated Win Probability</span>
+                            <div id="winProbValue" class="text-4xl font-black mt-2 text-indigo-400">0.00%</div>
+                            <div id="badgeStatus" class="inline-block mt-3 px-3 py-1 rounded-full text-xs font-semibold"></div>
+                        </div>
+
+                        <!-- Secondary Metrics -->
+                        <div class="grid grid-cols-2 gap-4 text-center">
+                            <div class="bg-slate-800/80 border border-slate-700 p-3 rounded-lg">
+                                <span class="text-xs text-slate-400 block">Bid-to-Budget Ratio</span>
+                                <span id="ratioValue" class="text-lg font-bold text-slate-200">0.0</span>
+                            </div>
+                            <div class="bg-slate-800/80 border border-slate-700 p-3 rounded-lg">
+                                <span class="text-xs text-slate-400 block">Market Position</span>
+                                <span id="marketPosition" class="text-sm font-semibold text-emerald-400">Competitive</span>
+                            </div>
+                        </div>
+
+                        <!-- AI Insights -->
+                        <div>
+                            <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">💡 AI Pricing Insights</h4>
+                            <ul id="insightsList" class="space-y-2 text-sm bg-slate-800 border border-slate-700 p-3 rounded-lg text-slate-300">
+                                <!-- ul means unordered list -->
+                                <!-- Dynamic insights inserted here -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center text-xs text-slate-500 mt-6 pt-4 border-t border-slate-800">
+                    FreelanceBidder Engine • Powered by FastAPI & Scikit-Learn
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 border-t border-slate-700 py-4 text-center text-xs text-slate-400">
+        &copy; 2026 FreelanceBidder. Built for Indian Freelancers.
+    </footer>
+
+    <!-- JavaScript script linkage -->
+    <script src="script.js"></script>
+</body>
+</html>
