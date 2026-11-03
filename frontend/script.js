@@ -18,7 +18,7 @@ document.getElementById('bidForm').addEventListener('submit', async function(e) 
 
     try {
         // Send POST request to FastAPI backend
-        const response = await fetch('http://127.0.0.1:8000/predict', {
+        const response = await fetch('https://freelancebidder-production.up.railway.app', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
