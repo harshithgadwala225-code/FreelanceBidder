@@ -18,7 +18,7 @@ document.getElementById('bidForm').addEventListener('submit', async function(e) 
 
     try {
         // Send POST request to FastAPI backend
-        const response = await fetch('https://freelancebidder-production.up.railway.app', {
+        const response = await fetch('https://freelancebidder-production.up.railway.app/docs', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
